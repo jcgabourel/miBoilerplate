@@ -17,6 +17,7 @@ class BladeServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerCaptcha();
+        
     }
 
     /**
