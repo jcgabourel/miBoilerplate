@@ -101,7 +101,7 @@
                     </div>
                     <!-- /input-group -->
                 </li>         
-                <x-menuComponent  parentid="0"/>
+                
             </ul>
 
         </div>

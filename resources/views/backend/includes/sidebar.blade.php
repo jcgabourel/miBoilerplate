@@ -96,6 +96,8 @@
                 </ul>
             </li>
         @endif
+        <li class="c-sidebar-nav-title">MENU</li>
+        <x-backend.menuComponent  menu_Id="0"/>
     </ul>
 
     <button class="c-sidebar-minimizer c-class-toggler" type="button" data-target="_parent" data-class="c-sidebar-minimized"></button>

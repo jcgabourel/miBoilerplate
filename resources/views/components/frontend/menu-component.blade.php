@@ -11,7 +11,7 @@
             @else
             <ul class="nav nav-third-level">
             @endif 
-                <x-menuComponent parentid="{{$menu->id}}" />
+                <x-frontend.menuComponent menu_Id="{{$menu->id}}" />
             </ul>
         @endif 
         </li>

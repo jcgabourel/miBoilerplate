@@ -14,12 +14,20 @@ class CreateMenusTable extends Migration
     public function up()
     {
         Schema::create('menus', function (Blueprint $table) {
+           
             $table->bigIncrements('id');
+            $table->smallInteger('Endpoint')->default(1);
             $table->string('title');
             $table->string('icon')->nullable();
             $table->string('href');
-            $table->integer('parent_id');
-            $table->smallInteger('level');
+            
+            $table->unsignedBigInteger('menu_id')->default(0);
+           // $table->foreign('menu_id')->references('id')->on('menus');
+
+            $table->smallInteger('level')->default(1);
+            $table->boolean('editable')->default(true);            
+            $table->smallInteger('orden');
+
             $table->timestamps();
         });
     }

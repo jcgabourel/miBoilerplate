@@ -1,23 +1,23 @@
 <?php
 
-namespace App\View\Components;
 
+namespace App\View\Components\Backend;
 use Illuminate\View\Component;
-use App\Models\Menu ;
+use App\Models\System\Menu ;
 
 class MenuComponent extends Component
 {
 
-    public $parent_id ;
+    public $menuId ;
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($parentid)
+    public function __construct($menuId)
     {
         //
-        $this->parent_id =$parentid ;
+        $this->menuId =$menuId ;
     }
 
     /**
@@ -27,8 +27,7 @@ class MenuComponent extends Component
      */
     public function render()
     {
-        $menus =  Menu::where('parent_id','=',$this->parent_id)->get();
-        
-        return view('components.menu-component',compact('menus'));
+        $menus =  Menu::where('menu_Id','=',$this->menuId)->get();
+        return view('components.backend.menu-component',compact('menus'));
     }
 }

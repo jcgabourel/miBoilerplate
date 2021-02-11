@@ -2,16 +2,22 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Menu extends Model
 {
-    use HasFactory;
+    protected $guarded = ['id'];
 
-    protected $fillable = ['title','parent_id'];
+    public static function name()
+    {
+        return "Menu";
+    }
 
     public function childs() {
-        return $this->hasMany('App\Models\Menu','parent_id','id') ;
+        return $this->hasMany('App\Models\Menu','menu_Id','id') ;
     }
+
+    protected $visible  = ['title','icon','href'];
+    protected $fillable   = ['title','icon','href','menu_Id','level','orden'];
+
 }
