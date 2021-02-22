@@ -7,7 +7,7 @@ aku
 
 <script src="{{asset('js/app.js')}}"></script> 
 <div id="app2">
-<example-component />
+<menu-manager />
 </div>
 
 
