@@ -40,6 +40,8 @@ use Illuminate\Http\Request;
     ->name('menumanager')
     ;
 
+    Route::view('m2','backend.m2');
+
     Route::post('menumanager',[App\Http\Controllers\Backend\MenuManagerController::class,'store'])
     ->name('menumanager')
     ;
