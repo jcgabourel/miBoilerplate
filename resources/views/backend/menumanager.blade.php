@@ -13,10 +13,10 @@
                 MENU
             </div >
             <div class="card-body">     
-            <ul class="list-group list-group-flush">      
-              <x-backend.menuEditListComponent  menu_Id="0"/>
-              </ul>
-              </div > 
+                <ul class="list-group list-group-flush">      
+                  <x-backend.menuEditListComponent  menu_Id="0" />
+                </ul>
+            </div > 
         </div>
     </div>
     <div class="col-sm-6">
@@ -91,5 +91,6 @@
     </div>
   </div>
 </div>
+
 
 @endsection

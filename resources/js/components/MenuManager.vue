@@ -6,14 +6,12 @@
             <div  class="card-header">
                 MENU
             </div > 
-            <div class="card-body">     
-                <ul class="list-group list-group-flush">      
-                    <li v-for="elementos in data"   v-bind:key="elementos.id"   >{{elementos.nombre}} 
-                        <ul v-if="elementos.childs.length  >0" >
-                            <li v-for="hijos in elementos.childs"   v-bind:key="hijos.id"  v-text="hijos.nombre"  />
-                        </ul> 
-                     </li>
+            <div class="card-body">  
+                <ul  >  
+                    <menu-tree-component @eliminar="elimina" :id="0" level="1"   :datos="data"/>
                 </ul>
+                
+
             </div > 
         </div>
     </div>
@@ -63,23 +61,56 @@
             
             </div>
         
-        </div>
+        </div> 
+       
+      
     </div>
+       
+      
 </div>
 
 </template>
 
 <script>
     export default {
+        props:[ 'datos'],
         mounted() {
             console.log('Component mounted.')
         },
         data(){
            return{ data:[
-                            {id:1 ,parent:'0',  nombre:'elemento1', childs:[{id:3, parent:'1',  nombre:'elemento1.2'}]},
+                            {id:1 ,parent:'0',  nombre:'elementwwwwo1', childs:[{id:3, parent:'1',  nombre:'elemento1.2'}]},
                             {id:2 ,parent:'0',  nombre:'elemento2', childs:[ ]}
-                    ]
+                    ] 
             }
+        },
+        methods:{
+actualiza:function (){console.log(this.aaa)}, 
+  getIndexByKey(key, data) {
+    var found = null;
+
+    for (var i = 0; i < data.length; i++) {
+        var element = data[i];
+
+        if (element.id == key) {
+            return element;
+       } 
+
+    }
+
+    return found ;
+   
+},
+elimina(id){
+    this.data.splice(id-1, 1)
+}
+
+        },computed: {
+
+           testo: function (){
+                return  JSON.stringify(this.data) 
+            } 
         }
+         
     }
 </script>

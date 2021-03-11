@@ -10,8 +10,10 @@
     @endfor
 
         <div class="col-sm-{{8-$menu->level}}"> 
-        @if(count($menu->childs)) <i class="fas fa-plus"></i>  @endif    <i class="{{$menu->icon}}" style="font-size:20px;"></i> {{$menu->title}}
+        @if(count($menu->childs)) <i class="fas fa-plus"></i>  @endif   
+         <i class="{{$menu->icon}}" style="font-size:20px;"></i> {{$menu->title}}
         </div>
+
         <div   class="btn-group col-sm-4" role="group" aria-label="Basic example">
             <button type="button" class="btn btn-info " disabled ><i class="fas fa-angle-double-left"></i></button>
             <button type="button" class="btn btn-info "  ><i class="fas fa-angle-double-right"></i></button>
@@ -22,6 +24,7 @@
             <button type="submit" class="btn btn-info "  ><i class="far fa-trash-alt"></i></button>
             </form>
         </div>
+
     
     </div> 
     
