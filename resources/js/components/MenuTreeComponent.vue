@@ -8,21 +8,21 @@
                     <div :class="clase2">                         
                     </div>    
                     <div :class="clase">                     
-                        <i class="fas fa-plus" style="font-size:20px;"></i> {{elementos.nombre}} {{clase}} 
+                        <i class="fas fa-plus" style="font-size:20px;"></i> {{elementos.nombre}}   
                     </div>
 
                     <div   class="btn-group col-sm-5" role="group" aria-label="Basic example">
-                        <button type="button" class="btn btn-info " disabled ><i class="fas fa-angle-double-left"></i></button>
+                        <button @click="back(elementos)" type="button" class="btn btn-info " :disabled="parseInt(level)==1" ><i class="fas fa-angle-double-left"></i> </button>
                         <button type="button" class="btn btn-info "  ><i class="fas fa-angle-double-right"></i></button>
-                        <button type="button" class="btn btn-info "  ><i class="far fa-edit"></i></button>                         
-                        <button @click="eliminar(elementos.id)"      class="btn btn-info "  ><i class="far fa-trash-alt"></i></button>                        
+                        <button @click="$emit('modifica',elementos)"   class="btn btn-info "  ><i class="far fa-edit"></i></button>                         
+                        <button @click="eliminar(elementos.id)"     class="btn btn-info "  ><i class="far fa-trash-alt"></i></button>                        
                     </div>
                     
-                </div>
+                </div>  
             
             </li> 
             
-            <menu-tree-component  :level="parseInt(level)+1"  :datos="elementos.childs" > 
+            <menu-tree-component  :level="parseInt(level)+1"  :datos="elementos.childs" @modifica="moddd" > 
             </menu-tree-component       > 
         </div>
     </div>
@@ -34,7 +34,7 @@
     export default {
         props:['datos','level'],
         mounted() {
-            console.log('Component mounted.')
+           
         } ,
        computed: {
             deep: function () {
@@ -56,9 +56,25 @@
                     } 
                 }
             }
+            ,moddd(event  )
+                { console.log (event)
+                this.$emit('modifica',event)
+                
+                } 
+            , back(elemento)
+                {
+                    alert(elemento.nombre);
+                    alert(elemento.parent);
+                    alert(   this.ejem()) ;
+
+                } ,
+                ejem(){
+
+                    return "yaa";
+                }
         
         },
-        emits:['elimina']
+        emits:['modifica']
     
     }
 </script>

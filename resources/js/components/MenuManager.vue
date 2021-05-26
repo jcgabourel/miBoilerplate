@@ -8,12 +8,17 @@
             </div > 
             <div class="card-body">  
                 <ul  >  
-                    <menu-tree-component @eliminar="elimina" :id="0" level="1"   :datos="data"/>
+                    <menu-tree-component  :id="0" level="1"   :datos="data" @modifica="actualiza" />
+                
                 </ul>
                 
 
             </div > 
         </div>
+
+        <pre>
+        {{data2}}
+        </pre>
     </div>
     <div class="col-sm-6">
         <div class="card">
@@ -25,7 +30,7 @@
             <div class="card-body">
                 <div class="form-group">
                     <label for="title">Título:</label>
-                        <input type="text" class="form-control" name="title" id="title">
+                        <input type="text" class="form-control" name="title" id="title" v-model="formvars.titulo">
                 </div>
                 <div class="form-group">
                     <label for="title">Icono:</label>
@@ -45,7 +50,7 @@
                 </div>
                 <div class="form-group">
                     <label for="title">Parent Id:</label>
-                    <input type="text" class="form-control" name="menu_Id" id="menu_Id">
+                    <input type="text" class="form-control" name="menu_Id" id="menu_Id" v-model="formvars.parentid">
                 </div>
                          
 
@@ -56,8 +61,8 @@
                 
             </div>
             <div class= 'card-footer'>
-            <button type="sumbit" class="btn btn-primary" name="action" value="actualizar"><i class="fas fa-sync-alt"></i> Primary Button</button>
-            <button type="sumbit" class="btn btn-success" name="action" value="nuevo"> <i class="fas fa-plus"></i> Guardar Nuevo Menu</button>
+            <button type="sumbit" class="btn btn-primary" name="action" ><i class="fas fa-sync-alt"></i> Actualizar</button>
+            <button v-if="verguardar"   class="btn btn-success" name="guardar" @click="guardar"> <i class="fas fa-plus"></i> Guardar Nuevo Menu</button>
             
             </div>
         
@@ -75,41 +80,58 @@
     export default {
         props:[ 'datos'],
         mounted() {
-            console.log('Component mounted.')
+            
         },
         data(){
            return{ data:[
                             {id:1 ,parent:'0',  nombre:'elementwwwwo1', childs:[{id:3, parent:'1',  nombre:'elemento1.2'}]},
                             {id:2 ,parent:'0',  nombre:'elemento2', childs:[ ]}
-                    ] 
+                    ],
+                    data2:[
+                        {id:1,parent:'0',nombre:"elemento1"},
+                        {id:3,parent:'1',nombre:"elemento2"},
+                        {id:2,parent:'0',nombre:"elemento3"}
+                    ],
+                    formvars: {titulo:"",
+                                parentid :0,
+                                cual:""
+                                } 
             }
         },
         methods:{
-actualiza:function (){console.log(this.aaa)}, 
-  getIndexByKey(key, data) {
-    var found = null;
+                actualiza:function (cual){
+                    this.formvars.titulo = cual.nombre;
+                    this.formvars.parentid = cual.parent;
+                    this.formvars.cual =cual;
+                    }, 
+                getIndexByKey(key, data) {
+                    var found = null;
 
-    for (var i = 0; i < data.length; i++) {
-        var element = data[i];
+                    for (var i = 0; i < data.length; i++) {
+                        var element = data[i];
 
-        if (element.id == key) {
-            return element;
-       } 
+                        if (element.id == key) {
+                            return element;
+                    } 
 
-    }
+                    }
 
-    return found ;
-   
-},
-elimina(id){
-    this.data.splice(id-1, 1)
-}
+                    return found ;
+                
+                } ,
+                guardar(){
+                    this.formvars.cual.nombre = this.formvars.titulo ;
+                    console.log(this.formvars.titulo);
+                }
 
         },computed: {
 
            testo: function (){
                 return  JSON.stringify(this.data) 
-            } 
+            } ,
+            verguardar : function(){
+                if (this.formvars.titulo == "") return false ;
+                 return true}
         }
          
     }
