@@ -8,12 +8,13 @@
                     <div :class="clase2">                         
                     </div>    
                     <div :class="clase">                     
-                        <i class="fas fa-plus" style="font-size:20px;"></i> {{elementos.nombre}}   
+                        <i class="fas fa-plus" style="font-size:20px;"></i> {{elementos.nombre}} 
+                          
                     </div>
 
                     <div   class="btn-group col-sm-5" role="group" aria-label="Basic example">
-                        <button @click="back(elementos)" type="button" class="btn btn-info " :disabled="parseInt(level)==1" ><i class="fas fa-angle-double-left"></i> </button>
-                        <button type="button" class="btn btn-info "  ><i class="fas fa-angle-double-right"></i></button>
+                        <button @click="back(elementos)" type="button" class="btn btn-info " :disabled="parseInt(level)==1"  ><i class="fas fa-angle-double-left"></i> </button>
+                        <button @click="foward(elementos)" type="button" class="btn btn-info " :disabled="parseInt(indexof(elementos))==1  " ><i class="fas fa-angle-double-right"></i></button>
                         <button @click="$emit('modifica',elementos)"   class="btn btn-info "  ><i class="far fa-edit"></i></button>                         
                         <button @click="eliminar(elementos.id)"     class="btn btn-info "  ><i class="far fa-trash-alt"></i></button>                        
                     </div>
@@ -22,7 +23,7 @@
             
             </li> 
             
-            <menu-tree-component  :level="parseInt(level)+1"  :datos="elementos.childs" @modifica="moddd" > 
+            <menu-tree-component  :level="parseInt(level)+1"  :datos="elementos.childs" :fulldata="fulldata" @modifica="moddd" > 
             </menu-tree-component       > 
         </div>
     </div>
@@ -32,7 +33,7 @@
 
 <script>
     export default {
-        props:['datos','level'],
+        props:['datos','level','fulldata'],
         mounted() {
            
         } ,
@@ -48,13 +49,15 @@
             }
         },
         methods:{
-            eliminar:function(key ){                    
-                for (var i = 0; i < this.datos.length; i++) {
-                    var element = this.datos[i];
+            eliminar:function(key ){    
+                 
+                
+                for (var i = 0; i < this.fulldata.length; i++) {
+                    var element = this.fulldata[i];
                     if (element.id == key) {
-                        this.datos.splice(i,1);
+                        this.fulldata.splice(i,1);
                     } 
-                }
+                } 
             }
             ,moddd(event  )
                 { console.log (event)
@@ -62,16 +65,51 @@
                 
                 } 
             , back(elemento)
-                {
-                    alert(elemento.nombre);
-                    alert(elemento.parent);
-                    alert(   this.ejem()) ;
-
+                {                                   
+                    this.realOf(elemento).parent = this.parentOf(elemento).parent;  
                 } ,
-                ejem(){
 
-                    return "yaa";
-                }
+                parentOf(elemento){
+                    for (var i = 0; i < this.fulldata.length; i++) {
+                    var element = this.fulldata[i];
+                    if (element.id == elemento.parent) {
+                        return element ;
+                        } 
+                    }   
+
+                },
+                 realOf(elemento){
+                    for (var i = 0; i < this.fulldata.length; i++) {
+                    var element = this.fulldata[i];
+                    if (element.id == elemento.id) {
+                        return element ;
+                        } 
+                    }   
+
+                },
+                foward(elemento)
+                {
+                    
+                    for (var i = 0; i < this.fulldata.length; i++) {
+                    var element = this.fulldata[i];                    
+                    if (element.parent == elemento.parent 
+                        && this.indexof(element) == this.indexof(elemento)-1 )  {
+                        this.realOf(elemento).parent = element.id; 
+                        } 
+                    }  
+                } ,
+
+            indexof(elemento){
+              var  orden =1 ;
+                  for (var i = 0; i < this.fulldata.length; i++) {
+                    var element = this.fulldata[i];
+                    if (element.id == elemento.id) 
+                       return orden ;
+                     if (element.parent == elemento.parent) 
+                        orden ++ ;
+                } 
+                return orden ;
+            }
         
         },
         emits:['modifica']

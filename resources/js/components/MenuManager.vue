@@ -8,7 +8,7 @@
             </div > 
             <div class="card-body">  
                 <ul  >  
-                    <menu-tree-component  :id="0" level="1"   :datos="data" @modifica="actualiza" />
+                    <menu-tree-component  :id="0" level="1"   :datos="computeddata(0)" :fulldata="data2" @modifica="actualiza" />
                 
                 </ul>
                 
@@ -16,9 +16,16 @@
             </div > 
         </div>
 
-        <pre>
-        {{data2}}
-        </pre>
+         
+       <hr />
+        <table border= 1>
+            <tr>
+                <td><pre>{{computeddata(0)}} </pre></td>
+             
+                <td><pre>{{data2}} </pre></td>
+            </tr>
+        </table>
+        
     </div>
     <div class="col-sm-6">
         <div class="card">
@@ -61,8 +68,8 @@
                 
             </div>
             <div class= 'card-footer'>
-            <button type="sumbit" class="btn btn-primary" name="action" ><i class="fas fa-sync-alt"></i> Actualizar</button>
-            <button v-if="verguardar"   class="btn btn-success" name="guardar" @click="guardar"> <i class="fas fa-plus"></i> Guardar Nuevo Menu</button>
+            <button                     class="btn btn-primary" name="action"  @click="guardar2"><i class="fas fa-sync-alt"></i> Guardar</button>
+            <button v-if="verguardar"   class="btn btn-success" name="guardar" @click="guardar"> <i class="fas fa-plus"></i> Guardar</button>
             
             </div>
         
@@ -122,7 +129,48 @@
                 guardar(){
                     this.formvars.cual.nombre = this.formvars.titulo ;
                     console.log(this.formvars.titulo);
-                }
+                },
+                  guardar2(){
+                   var dat ={};
+                   dat.id = this.newid();
+                   dat.nombre =this.formvars.titulo ;
+                   dat.parent =this.formvars.parentid ;
+                   
+
+                   this.data2.push(dat);
+
+                },
+                newid()
+                {
+                    var newid =1 ;
+                     for(var i = 0; i< this.data2.length ;i++){                         
+                       if (this.data2[i].id >= newid)  
+                            newid = this.data2[i].id +1 ;
+                     }
+                     return newid ;
+                },
+               computeddata :function(inicio ){
+               var  midata = [];
+               var dat =[]   ;
+               for(var i = 0; i< this.data2.length ;i++){
+                   if (this.data2[i].parent == inicio)
+                       {
+                           var dat = {};
+                            dat.id =this.data2[i].id ;
+                            dat.parent =this.data2[i].parent ;
+                            dat.nombre =this.data2[i].nombre ;  
+                            dat.childs = [];
+                             
+                            dat.childs = this.computeddata(dat.id);
+                            midata.push(dat);
+
+                       } 
+               }
+               
+                return midata ; 
+
+
+            }
 
         },computed: {
 
@@ -131,7 +179,9 @@
             } ,
             verguardar : function(){
                 if (this.formvars.titulo == "") return false ;
-                 return true}
+                 return true},
+
+            
         }
          
     }
